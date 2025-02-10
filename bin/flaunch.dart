@@ -34,7 +34,7 @@ void main(List<String> arguments) {
   }
 }
 
-const String currentVersion = '1.0.0+3'; // Update this with each release
+const String currentVersion = '1.0.0+4'; // Update this with each release
 
 void checkForUpdates() {
   final result = Process.runSync('dart', ['pub', 'global', 'list']);
@@ -103,25 +103,29 @@ linter:
   print('✅ Lint rules configured!');
 }
 
-Future<void> generateBoilerplate() async {
+void generateBoilerplate() {
   print('📂 Generating boilerplate code...');
 
-  Uri? packageUri = await Isolate.resolvePackageUri(Uri.parse('package:flaunch/templates/'));
-  if (packageUri == null) {
-    print('❌ Error: Could not locate templates folder inside the package.');
-    return;
-  }
-
-  Directory templateDir = Directory.fromUri(packageUri);
-  Directory targetDir = Directory('lib');
-
-  if (!templateDir.existsSync()) {
+  final templateDir = _getTemplateDirectory();
+  if (templateDir == null || !templateDir.existsSync()) {
     print('❌ Error: Template folder not found!');
     return;
   }
 
+  final targetDir = Directory('lib');
   _copyDirectory(templateDir, targetDir);
   print('✅ Boilerplate generated successfully!');
+}
+
+Directory? _getTemplateDirectory() {
+  try {
+    final scriptDir = File(Platform.script.toFilePath()).parent;
+    final templatePath = Directory('${scriptDir.path}/templates');
+    return templatePath.existsSync() ? templatePath : null;
+  } catch (e) {
+    print('❌ Error resolving template directory: $e');
+    return null;
+  }
 }
 
 void _copyDirectory(Directory source, Directory destination) {

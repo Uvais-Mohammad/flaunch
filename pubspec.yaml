@@ -1,6 +1,6 @@
 name: flaunch
 description: A CLI tool to set up Flutter projects quickly with predefined structures, dependencies, and boilerplate code.
-version: 1.0.0+3
+version: 1.0.0+4
 repository: https://github.com/Uvais-Mohammad/flaunch
 homepage: https://github.com/Uvais-Mohammad/flaunch
 
