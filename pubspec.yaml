@@ -1,14 +1,14 @@
-name: flutter_wizard
+name: flaunch
 description: A CLI tool to set up Flutter projects quickly with predefined structures, dependencies, and boilerplate code.
 version: 1.0.0
-repository: https://github.com/Uvais-Mohammad/flutter_wizard
-homepage: https://github.com/Uvais-Mohammad/flutter_wizard
+repository: https://github.com/Uvais-Mohammad/flaunch
+homepage: https://github.com/Uvais-Mohammad/flaunch
 
 environment:
   sdk: ^3.6.2
 
 executables:
-  flutter_wizard:
+  flaunch:
 
 dependencies:
   args: ^2.4.2
