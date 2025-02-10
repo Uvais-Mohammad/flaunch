@@ -1,8 +1,17 @@
 import 'dart:io';
 import 'dart:isolate';
 import 'package:args/args.dart';
+import 'package:pub_semver/pub_semver.dart';
 
 void main(List<String> arguments) {
+  if (arguments.contains('--update')) {
+    print('🔄 Updating Flaunch...');
+    Process.runSync('dart', ['pub', 'global', 'activate', 'flaunch']);
+    print('✅ Flaunch updated successfully!');
+    return;
+  }
+
+  checkForUpdates();
   final parser = ArgParser()
     ..addFlag('setup', abbr: 's', help: 'Setup project structure')
     ..addFlag('dependencies', abbr: 'd', help: 'Add common dependencies')
@@ -23,6 +32,23 @@ void main(List<String> arguments) {
     generateBoilerplate();
     runBuildRunner();
   }
+}
+
+const String currentVersion = '1.0.0+3'; // Update this with each release
+
+void checkForUpdates() {
+  final result = Process.runSync('dart', ['pub', 'global', 'list']);
+  final installedVersion = _getInstalledVersion(result.stdout.toString());
+
+  if (installedVersion != null && Version.parse(installedVersion) < Version.parse(currentVersion)) {
+    print('\x1B[33m⚠️ A new version of Flaunch is available! Run:\x1B[0m');
+    print('\x1B[32m  dart pub global activate flaunch\x1B[0m');
+  }
+}
+
+String? _getInstalledVersion(String output) {
+  final match = RegExp(r'flaunch (\d+\.\d+\.\d+\+\d+)').firstMatch(output);
+  return match?.group(1);
 }
 
 void setupProject() {

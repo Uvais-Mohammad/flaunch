@@ -76,6 +76,13 @@ For more options, run:
 flaunch --help
 ```
 
+## Updating Flaunch
+To update **Flaunch** to the latest version, run:
+
+```sh
+dart pub global activate flaunch
+```
+
 ---
 
 ## **📦 Included Dependencies**
