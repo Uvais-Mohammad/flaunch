@@ -7,3 +7,4 @@
 - Added boilerplate generation (`--boilerplate`)
 - Configured linting rules (`--lint`)
 - Implemented `--all` flag to execute all tasks
+- **Improved template handling:** Now loads templates from the package itself instead of the user's project
