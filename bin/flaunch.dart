@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:isolate';
 import 'package:args/args.dart';
 
 void main(List<String> arguments) {
@@ -76,11 +77,17 @@ linter:
   print('✅ Lint rules configured!');
 }
 
-void generateBoilerplate() {
+Future<void> generateBoilerplate() async {
   print('📂 Generating boilerplate code...');
 
-  final templateDir = Directory('templates');
-  final targetDir = Directory('lib');
+  Uri? packageUri = await Isolate.resolvePackageUri(Uri.parse('package:flaunch/templates/'));
+  if (packageUri == null) {
+    print('❌ Error: Could not locate templates folder inside the package.');
+    return;
+  }
+
+  Directory templateDir = Directory.fromUri(packageUri);
+  Directory targetDir = Directory('lib');
 
   if (!templateDir.existsSync()) {
     print('❌ Error: Template folder not found!');
