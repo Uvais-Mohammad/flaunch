@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+
+mixin StaggeredAnimation {
+  /// Creates a list of widgets with staggered slide and fade animations
+  ///
+  /// [children] The list of widgets to animate
+  /// [childAnimationBuilder] Optional custom animation builder
+  /// [verticalOffset] Vertical offset for slide animation, defaults to 50.0
+  List<Widget> staggeredAnimationSlide({
+    required List<Widget> children,
+    Widget Function(Widget)? childAnimationBuilder,
+    double verticalOffset = 50.0,
+  }) {
+    return AnimationConfiguration.toStaggeredList(
+      childAnimationBuilder: childAnimationBuilder ??
+          (widget) => SlideAnimation(
+                verticalOffset: verticalOffset,
+                child: FadeInAnimation(child: widget),
+              ),
+      children: children,
+    );
+  }
+
+  List<Widget> staggeredAnimationScale({
+    required List<Widget> children,
+    Widget Function(Widget)? childAnimationBuilder,
+  }) {
+    return AnimationConfiguration.toStaggeredList(
+      childAnimationBuilder: childAnimationBuilder ??
+          (widget) => ScaleAnimation(
+                child: FadeInAnimation(child: widget),
+              ),
+      children: children,
+    );
+  }
+}
+

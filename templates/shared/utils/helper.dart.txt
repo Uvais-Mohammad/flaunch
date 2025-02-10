@@ -1,0 +1,108 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import '../models/bad_request.dart';
+
+class Helper {
+  static void afterInit(VoidCallback function) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => function());
+  }
+
+  static showDialogPopUp(
+    BuildContext context,
+    Widget dialogWidget, {
+    bool barrierDismissible = true,
+    String? routeName,
+  }) {
+    showGeneralDialog(
+      barrierDismissible: barrierDismissible,
+      context: context,
+      barrierLabel: "",
+      routeSettings: routeName == null ? null : RouteSettings(name: routeName),
+      pageBuilder: (ctx, a1, a2) {
+        return Container();
+      },
+      transitionBuilder: (ctx, a1, a2, child) {
+        return WillPopScope(
+          onWillPop: () async {
+            // if (barrierDismissible) Navigator.pop(context);
+            return barrierDismissible;
+          },
+          child: dialogWidget,
+          // child: Transform.scale(
+          //   scale: curve,
+          //   child: dialogWidget,
+          // ),
+        );
+      },
+      // transitionDuration: const Duration(milliseconds: 300),
+    );
+  }
+
+  dynamic errorMapping(Response? response) {
+    final badRequest = <BadRequest>[]; // List to store BadRequest objects
+    var errorString = ''; // String to accumulate error messages
+
+    // Check if response and response.data are not null
+    if (response?.data is Map) {
+      // Check for specific error types
+      if (response?.data.containsKey('msg')) {
+        final message = response?.data['msg'];
+        if (message is String) {
+          badRequest.add(BadRequest(error: [message]));
+        }
+      } else if (response?.data.containsKey('error')) {
+        final error = response?.data['error'];
+        if (error is String) {
+          badRequest.add(BadRequest(error: [error]));
+        }
+      }
+    } else {
+      // Handle case where response.data is null or not a Map
+      badRequest.add(BadRequest(error: ['Invalid response format']));
+    }
+
+    // Construct error string from badRequest list
+    for (var element in badRequest) {
+      var subString = '';
+      element.error?.forEach((sub) {
+        subString = '$subString\n$sub';
+      });
+      if (errorString.isEmpty) {
+        errorString = subString;
+      } else {
+        errorString = '$errorString\n\n$subString';
+      }
+    }
+
+    return errorString;
+  }
+
+  static logoutUser(BuildContext context, {bool isNavToMain = false}) async {
+    //TODO : implement logout functionality
+
+    if (!context.mounted) return;
+    // context.deleteSaveLocale();
+    // context.resetLocale();
+    if (isNavToMain) {
+      // TODO
+      // Navigator.of(context).pushNamedAndRemoveUntil(routeMain, (route) => false);
+    } else {
+      // TODO
+      // Navigator.of(context).pushNamedAndRemoveUntil(routeLogin, (route) => false);
+    }
+  }
+
+  showFlutterToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: const Color.fromRGBO(0, 0, 0, 0.5),
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+}
