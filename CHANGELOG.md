@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0+1 - 2025-02-10
+## 1.0.0+4 - 2025-02-10
 - Initial release of **Flaunch** 🎉
 - Added project setup command (`--setup`)
 - Added dependencies installation (`--dependencies`)
