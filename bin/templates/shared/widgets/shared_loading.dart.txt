@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/color_pallette.dart';
+import '../theme/color_pallette.dart.txt';
 
 class SharedLoading extends StatelessWidget {
   const SharedLoading({super.key});

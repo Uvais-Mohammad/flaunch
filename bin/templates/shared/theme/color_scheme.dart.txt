@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'color_pallette.dart';
+import 'color_pallette.dart.txt';
 MyColorScheme myColorScheme(BuildContext context) {
   return Theme.of(context).extension<MyColorScheme>()!;
 }

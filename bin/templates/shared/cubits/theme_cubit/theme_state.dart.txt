@@ -1,4 +1,4 @@
-part of 'theme_cubit.dart';
+part of 'theme_cubit.dart.txt';
 
 class ThemeState extends Equatable {
   final ThemeMode themeMode;
